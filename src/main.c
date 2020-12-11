@@ -16,6 +16,9 @@
 #define down_button PD6
 #define left_button PD7
 
+#define LCD_NOKIA_DATA 1
+#define LCD_NOKIA_CMD 0
+
 
 char lcd_display[504];
 
@@ -48,13 +51,27 @@ void SPI_init(void){
 }
 
 
-void SPI_MasterTransmit(char cData)
+void LCD_Write(char mode, char cData)
 {
-/* Start transmission */
-SPDR = cData;
-/* Wait for transmission complete */
-while(!(SPSR & (1<<SPIF)))
-;
+  if(mode == LCD_NOKIA_CMD)
+  {
+    PORTB &= ~(1<<DC_pin);
+  }
+
+  else
+  {
+    PORTB |= (1<<DC_pin);
+  }
+
+  PORTB &= ~(1<<SCE_pin);
+
+
+  /* Start transmission */
+  SPDR = cData;
+  /* Wait for transmission complete */
+  while(!(SPSR & (1<<SPIF)));
+
+  PORTB |= (1<<SCE_pin);
 }
 
 int main(void)
