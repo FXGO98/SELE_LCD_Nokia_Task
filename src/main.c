@@ -3,8 +3,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
-#include <math.h>
-
 #include "nokia5110.h"
 
 #define pause_button PD3
