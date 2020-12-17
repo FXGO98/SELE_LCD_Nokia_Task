@@ -3,9 +3,9 @@
 1. [Introduction](#Introduction)
 2. [LCD Pinout](#LCD-Pinout)
 3. [LCD Operation](#LCD-Operation)
-4. [Built-in example](#Built-in-example)
-5. [Known issues](#Known-issues)
-6. [Future improvements](#Future-improvements)
+4. [Game Operation](#Game-Operation)
+5. [Used Libraries](#Used-Libraries)
+6. [Issues and Solutions](#Issues-and-Solutions)
 
 
 ## Introduction
@@ -13,6 +13,16 @@
 The objective of this task was to implement a snake game in a Microcontroller Atmega328P to be displayed by a LCD Nokia 5110. The displayed would be updated by the Microcontroller through the SPI protocol.
 
 Besides the Arduino Board containing the Microcontroller, we used 4 buttons to control the snake movement and 1 extra button for the options, as well as the wires and resistors to perform the connections.
+
+
+<p align="center">
+  <img width="460" height="300" src="/img/ram_tests_table.jpeg">
+</p>
+<p align="center">
+  <sub>
+Note: we apologise for the low quality image but it was the only that we could find
+  </sub>
+</p>
 
 
 
@@ -34,6 +44,16 @@ The LCD Nokia 5110 contains 8 pins with the following features:
 | 8 | LED | LED backlight supply | Input | Controls the Display Light through the Current |
 
 
+<p align="center">
+  <img width="460" height="300" src="/img/ram_tests_table.jpeg">
+</p>
+<p align="center">
+  <sub>
+Note: we apologise for the low quality image but it was the only that we could find
+  </sub>
+</p>
+
+
 
 ## LCD Operation
 
@@ -42,49 +62,6 @@ After the declaring the LCD pins as inputs and the initialization of the SPI thr
 
 The set of instructions is showned in the image below:
 
-
-
-### Send a Command
-
-In order to send a command, the first thing we need to do is to enabled the Transmission of Data, we can do that by setting the SCE pin LOW. Then we need to enable the Command Mode by setting the pin D/C LOW as well. The last thing is just writing the command (1 byte) in the Serial Pin (DN(MOSI)) and wait till the data is sent, by monitoring the SPI Interrupt Flag in the SPI Status Register or waiting 8 clock cycles. 
-
-After that we need to disable the Transmission of Data to prevent sending random data. We do that setting the SCE pin back to HIGH.
-
-### Flash
-
-#### Explanation
-
-The algorithm used for this is the CRC (Cyclic Redundancy Check) that is extensively explained in an Aplication Note by ATMEL (now Microchip), the makers of the ATMEGA. This explains way better and in more detail than we would be able to do here, so go to the provided link and read it if you're interested.
-
-[AVR236: CRC Check of Program Memory; ATMEL/MICROCHIP Aplication Note](http://ww1.microchip.com/downloads/en/AppNotes/doc1143.pdf)
-
-#### Notes
-
-The way this algorithm was implemented it only uses registers, so the issues with the RAM won't affect this tester.
-
-### RAM
-
-#### Explanation
-
-The algorithm used for testing the ATMEGA's RAM is the MATS++, and irredundant march test algorithm, that operates in the following way: 
-<p align="center">
-{⇕ (w(0)); ⇑ r(0),w(1)); ⇓ (r(1) , w(0), r(0)) } <br>
- </p>
- <p align="center">
- Each operation is done for all addresses before doing the next <br>
- </p>
- <p align="center">
-  <b>Explanation of the symbols:</b> <br>
- ⇕ - move up or down and address (up in our implementation) <br>
- ⇑ - move up an address <br>
- ⇓ - move down an address <br>
- w(X) - write X to the current address <br>
- r(X) - read from current address and compare with X (error if they don't match)
-
-</p>
-
-
-There are other algorithms that have different properties (fault coverage):
 
 <p align="center">
   <img width="460" height="300" src="/img/ram_tests_table.jpeg">
@@ -96,53 +73,87 @@ Note: we apologise for the low quality image but it was the only that we could f
 </p>
 
 
-As you can see by the table this algorithm doesn't cover all typed of faults, so if you need a more complete coverage of faults we would recommend the MARCH C-, although this has almost double the number of operations than the algorithm used in this tester. As with most things, choose the one that better suits your needs and requirements.
 
-#### Notes
+### Send a Command
 
-The way this algorithm was implemented it only uses registers, so the issues with the RAM won't affect this tester.
+In order to send a command, the first thing we need to do is to enabled the Transmission of Data, we can do that by setting the SCE pin LOW. Then we need to enable the Command Mode by setting the pin D/C LOW as well. The last thing is just writing the command (1 byte) in the Serial Pin (DN(MOSI)) and wait till the data is sent, by monitoring the SPI Interrupt Flag in the SPI Status Register or waiting 8 clock cycles. 
+
+After that we need to disable the Transmission of Data to prevent sending random data. We do that setting the SCE pin back to HIGH.
 
 
-## Using this library 
 
-In order to use this library all you need to do is import the .h file and call the testFlash() and testRam() whenever you need them. Note that the RAM function has arguments : testRam(uint8_t base, uint8_t top), and unless you know what you are doing never set the top value to an high value because it might corrupt the stack, so if you pass it 0 it will ignore the stack. 
 
-In the .h file there is the possibility to test the RAM and the Flash before main is called (by the order they're presented here) by uncomenting (defining) the following #define:
-* TEST_FLASH (value doesn't matter) - it saves the checksum in the ATMEGA's EEPROM at the address CHECKSUM_EEPROM_ADDRESS. In the case that you want to reset the value in the EEPROM uncoment (define) RESET_CHECKSUM and program and run the program once, then coment (undefine) it to use it again.
-* TEST_RAM (value doesn't matter unless you intend to inject faults (will be explained next))
+### Sending Data to the Screen 
 
-When the tests fail they cal the testError() function, that in the default case just blinks PINB5, so if you want it to do something different change the code inside that function.
+In order to send data, the first thing we need to do is to enabled the Transmission of Data, we can do that by setting the SCE pin LOW. Then we need to enable the Data Mode by setting the pin D/C HIGH. The last thing is just writing the command (1 byte) in the Serial Pin (DN(MOSI)) and wait till the data is sent, by monitoring the SPI Interrupt Flag in the SPI Status Register or waiting 8 clock cycles. 
 
-<b>NOTE: this pre-main tests use void __attribute__((constructor)) functions that are unique to GCC and may not work on all version of it, so this is not portable! Please be aware of that and if this doesn't work just copy the contents of the pre-main tests to the first lines of main (so they are executed before the main program)</b>
+After that we need to disable the Transmission of Data to prevent sending random data. We do that setting the SCE pin back to HIGH.
 
-In the .h file, if the previously mentioned enviroment variables are defined you can inject faults by uncomenting (defining) the following #define:
-* FLASH_INJECT_FAULT (value sets the address to corrupt, DO NOT SET TO VALUE OCCUPIED BY THE BOOTLOADER) 
-* RAM_INJECT_FAULT (value sets the address to corrupt) - if TEST_RAM is set to 0 it will corrupt the RAM between the first and second operation of the MATS++ algorithm and if you set it to any other value it will corrupt the RAM between the second and last operation
+To get more information about the SPI Registers check the ATMega328P datasheet: [ATMega328P Datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf)
 
-The Flash test is ran first because if the Flash memory is corrupted it is of no use to continue running the program.
 
-## Built-in example
+### Screen Display Control
 
-The example given is the main.cpp file, that as you can se only includes the library and the important enviroment variables.
-It is mean't to test the RAM and the Flash before executing the main function so if you want add whatever code you'd like.
-This example is meant to be used with an ATMEGA328P Arduino UNO (or clone equivelent) board !
+The LCD has a resolution of 48 x 84 pixels, making a total of 4032 pixels. However we can't control each pixel individually, we can only control pixels in blocks of 8, with each pixel being a single bit. With that in mind, we can control and have access to the display state using an array of bytes (8 bits) with a position for each block of 8 pixels, making an array with 504 positions.
 
-Watch the User LED (connected to pin 13), if the test fails it blinks otherwise it stays off.
 
-To use it do the following:
+The LCD Display is divided in 6 banks, each one with 84 columns with each column representing 1 byte, and every pixel 1 bit. When the respective bit is set to 1 the pixel is turned ON and when is set to 0 it turned OFF, having the Least Significant Bit on the Top and the Most Significant Bit on the Botton of the column. 
 
-1. Program and run the program as given
-2. The ATMEGA's RAM and Flash will be tested, but if you MCU isn't faulty the LED won't blink
-3. Comment (undefine) RESET_CHECKSUM , and uncomment RAM_INJECT_FAULT and/or FLASH_INJECT_FAULT, depending on if you want to inject a fault in the RAM and/or in the Flash, and set addresses if you like (default works fine)
-4. Program and run the program again
-5. The LED will blink because the tester found an error
 
-## Known issues
+<p align="center">
+  <img width="460" height="300" src="/img/ram_tests_table.jpeg">
+</p>
+<p align="center">
+  <sub>
+Note: we apologise for the low quality image but it was the only that we could find
+  </sub>
+</p>
 
-1. For some reason the return types and arguments of the functions cannot be defined by #define (they give a "does not name a type" error), maybe this is a limitation of the version of the AVR's GCC compiler used by the Arduino IDE. So because of this in order to be used with some other ATMEGA MCU with different RAM and/or Flash configurations you may need to modify these parts accordingly. The same thing applies for the checksum algorithm, if you want a different size checksum you'll need to change the argument of the generateChecksum() function and maybe some internal variable sizes.
 
-## Future improvements
+To update the display we can run a loop through each position of the array and send the value as the data. The LCD will update that position in the screen and then advance to the next position. When we pretend to change only the state of a few pixels, we can make use of the SET ADDRESS OF RAM instructions presented on the [LCD Operation](#LCD-Operation), to jump to the desired position in the screen and only change that one, instead of running through every position everytime a change occurs.
 
-1. Fix the issue with the #defines mentioned in the first point of the [Known issues](#Known-issues)
-2. Integrate the testing of the stack (right now you'll need to first run testRam(RAM_BASE_ADDRESS, 0) and then backup the stack to another part of ram and then run testRam(0, RAM_TOP_ADDRESS). As you can see this isn't the greatest implementation
-3. The saving of the checksum value to the ATMEGA's EEPROM assumes that the checksum is 16 bit, so that part needs to be extended for other values (such as 8, 32 and 64 bit, they are natively supported by the AVR-GCC)
+According with the respective configuration, we can update the display of two different ways, Horizontal Addressing or Vertical Addressing.
+
+
+<p align="center">
+  <img width="460" height="300" src="/img/ram_tests_table.jpeg">
+</p>
+<p align="center">
+  <sub>
+Note: we apologise for the low quality image but it was the only that we could find
+  </sub>
+</p>
+
+
+
+
+## Game Operation
+
+The Game was developed with a bunch of different menus, besides the game itself. 
+A start menu that allows the game to begin. A pause menu that saves the current information about the game and allows to continue the game later or to
+quit it and a Game Over Menu that shows the score, after the snake dies.
+
+In order to allow the logic transmission between menus and the continuity of the game, it was developed using a State Machine as showned in the figure below: 
+
+
+<p align="center">
+  <img width="460" height="300" src="/img/ram_tests_table.jpeg">
+</p>
+<p align="center">
+  <sub>
+Note: we apologise for the low quality image but it was the only that we could find
+  </sub>
+</p>
+
+
+
+## Used Libraries
+
+To allow a simplest control of the display, we used a library to control the writing of data, commands, the display update through SPI, based on the following Library: [Github: Nokia 5110 AVR Library](https://github.com/LittleBuster/avr-nokia5110) but with some modifications.
+
+
+## Issues and Solutions
+
+Due to some bugs related to the undesired shifting of the image on the LCD (bugs that we couldn't debug), we opted for sending each bit of data one by one on the Serial Pin and change the clock state for each one, instead of just writing the whole byte of data in the SPI Data Register. That allowed us to have more control in the data that was being sent to the LCD Driver and stopped the undesired shifting of the image.
+
+
