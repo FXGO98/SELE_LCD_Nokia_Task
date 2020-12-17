@@ -530,6 +530,8 @@ void reset(void)
   dir = 4;
   
   body_size = 5;
+  
+  dir = 4;
 
   food[0] = 47; 
   food[1] = 24;
