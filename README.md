@@ -45,7 +45,7 @@ The LCD Nokia 5110 contains 8 pins with the following features:
 
 
 <p align="center">
-  <img width="445" height="417" src="/img/524dc9ea757b7f616e8b4569.png">
+  <img width="333" height="333" src="/img/524dc9ea757b7f616e8b4569.png">
 </p>
 <p align="center">
   <sub>
@@ -116,7 +116,7 @@ According with the respective configuration, we can update the display of two di
 
 
 <p align="center">
-  <img width="551" height="330" src="/img/2.PNG">
+  <img width="367" height="220" src="/img/2.PNG">
 </p>
 <p align="center">
   <sub>
@@ -126,7 +126,7 @@ Horizontal Addressing
 
 
 <p align="center">
-  <img width="551" height="330" src="/img/11.PNG">
+  <img width="367" height="220" src="/img/11.PNG">
 </p>
 <p align="center">
   <sub>
@@ -146,7 +146,7 @@ In order to allow the logic transmission between menus and the continuity of the
 
 
 <p align="center">
-  <img width="461" height="572" src="/img/state machine.png">
+  <img width="346" height="429" src="/img/state machine.png">
 </p>
 <p align="center">
   <sub>
