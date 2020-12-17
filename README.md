@@ -1,7 +1,7 @@
 # Snake Game Console
 
 1. [Introduction](#Introduction)
-2. [Tester algorithms](#Tester-algorithms)
+2. [LCD Pinout](#LCD-Pinout)
 3. [Using this library](#Using-this-library)
 4. [Built-in example](#Built-in-example)
 5. [Known issues](#Known-issues)
@@ -10,19 +10,28 @@
 
 ## Introduction
 
-The objective of this task was to implement a snake game in a Microcontroller Atmega328P to be displayed by a LCD Nokia 5110 and controlled through the SPI protocol.
+The objective of this task was to implement a snake game in a Microcontroller Atmega328P to be displayed by a LCD Nokia 5110. The displayed would be updated by the Microcontroller through the SPI protocol.
 
 Besides the Arduino Board containing the Microcontroller, we used 4 buttons to control the snake movement and 1 extra button for the options, as well as the wires and resistors to perform the connections.
 
 
-This library (/lib/avr_test_ram_and_flash) is meant to be used for testing if the RAM and Flash memory of an ATMEGA MCU is corrupted, and it has the hability to insert faults (as explained in [Using this library](#Using-this-library)).
-It can be used with an already existing program with minimal modifications.
+## LCD Pinout
 
-This tester has been developed and verified for the ATMEGA328P present in the Arduino UNO (or equivelent clones) board, but with some little modifications (mainly the #defines in the .c file of the library) it can be ported to other ATMEGA MCUs or other AVR ASM compatible MCUs.
+The LCD Nokia 5110 contains 8 pins with the following features:
 
-Since this library was developed with PlatformIO, for you to use it standalone all you need to do is copu the files in (/lib/avr_test_ram_and_flash).
 
-## Tester algorithms
+| Pin Number   |      Pin Label     |    Pin Features |    Input/Output   |  Notes | 
+|----------|:-------------:|:-------------:|:-------------:|:-------------:|
+| 1 | VCC | Positive power supply | Input | Supply range is between 2.7V and 3.3V |
+| 2 | GND | Ground | Input | Ground |
+| 3 | SCE | Chip select | Input | Enables the Transmission of Data (Active low) |
+| 4 | RST | Reset | Input | Resets the Display |
+| 5 | D/C | Mode select | Input | Select between command mode (low) and data mode (high). |
+| 6 | DN(MOSI) | Serial data in | Input | Pin in which the Data is Transmitted |
+| 7 | SCLK | Serial clock | Input | Clock signal: 0.0 to 4.0 Mbits/s |
+| 8 | LED | LED backlight supply | Input | Controls the Display Light through the Current |
+
+## LCD 
 
 ### Flash
 
