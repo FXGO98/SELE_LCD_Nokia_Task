@@ -147,7 +147,7 @@ In order to allow the logic transmission between menus and the continuity of the
 
 
 <p align="center">
-  <img width="346" height="429" src="/img/state machine.png">
+  <img width="438" height="429" src="/img/state machine.png">
 </p>
 <p align="center">
   <sub>
