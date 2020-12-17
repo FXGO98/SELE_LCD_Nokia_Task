@@ -284,8 +284,6 @@ void snake_game(void)
   }
 
   nokia_lcd_set_pixel(food[0], food[1], true);
-
-  dir = 4;
     
   srand(time(NULL));
 
@@ -528,6 +526,8 @@ void reset(void)
   snake_body[3][1]=24;
   snake_body[4][0]=18; 
   snake_body[4][1]=24;
+
+  dir = 4;
   
   body_size = 5;
 
