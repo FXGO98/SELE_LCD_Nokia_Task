@@ -32,11 +32,7 @@ static struct {
     .cursor_y = 0
 };
 
-/**
- * Sending data to LCD
- * @bytes: data
- * @is_data: transfer mode: 1 - data; 0 - command;
- */
+
 static void write(uint8_t bytes, uint8_t is_data)
 {
 	register uint8_t i;
@@ -90,10 +86,13 @@ void nokia_lcd_init(void)
 	DDR_LCD |= (1 << LCD_DC);
 	DDR_LCD |= (1 << LCD_DIN);
 	DDR_LCD |= (1 << LCD_CLK);
+	DDR_LCD |= (1 << LED_pin);
 
 
 
 	/* Reset display */
+	PORT_LCD |= (1 << LED_pin);
+
 	PORT_LCD |= (1 << LCD_RST);
 	PORT_LCD |= (1 << LCD_SCE);
 	_delay_ms(10);
@@ -127,7 +126,7 @@ void nokia_lcd_init(void)
 	write_cmd(0x80);
 	write_cmd(LCD_CONTRAST);
 	for (i = 0; i < 504; i++)
-		write_data(0x00);
+		write_data(0xFF);
 
 	/* Activate LCD */
 	write_cmd(0x08);
@@ -146,11 +145,6 @@ void nokia_lcd_clear(void)
 	/* Clear everything (504 bytes = 84cols * 48 rows / 8 bits) */
 	for(i = 0;i < 504; i++)
 		nokia_lcd.screen[i] = 0x00;
-}
-
-void nokia_lcd_power(uint8_t on)
-{
-	write_cmd(on ? 0x20 : 0x24);
 }
 
 void nokia_lcd_set_pixel(uint8_t x, uint8_t y, bool value)

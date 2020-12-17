@@ -5,7 +5,7 @@
 #include <time.h>
 #include "nokia5110.h"
 
-#define pause_button PD3
+#define select_button PD3
 #define right_button PD4
 #define up_button PD5
 #define down_button PD6
@@ -19,52 +19,13 @@ uint8_t body_size;
 
 uint8_t food[2];
 
-uint8_t dir;
+uint8_t dir, init=1;
 
 bool collision;
 
 
 uint8_t score;
 
-
-static void write(uint8_t bytes, uint8_t is_data)
-{
-	/* Enable controller */
-	PORT_LCD &= ~(1 << LCD_SCE);
-
-	/* We are sending data */
-	if (is_data)
-		PORT_LCD |= (1 << LCD_DC);
-	/* We are sending commands */
-	else
-		PORT_LCD &= ~(1 << LCD_DC);
-
-	/* Send bytes */
-	for (i = 0; i < 8; i++) {
-		/* Set data pin to byte state */
-		if ((bytes >> (7-i)) & 0x01)
-			PORT_LCD |= (1 << LCD_DIN);
-		else
-			PORT_LCD &= ~(1 << LCD_DIN);
-
-		/* Blink clock */
-		PORT_LCD |= (1 << LCD_CLK);
-		PORT_LCD &= ~(1 << LCD_CLK);
-	}
-
-	/* Disable controller */
-	PORT_LCD |= (1 << LCD_SCE);
-}
-
-static void write_cmd(uint8_t cmd)
-{
-	write(cmd, 0);
-}
-
-static void write_data(uint8_t data)
-{
-	write(data, 1);
-}
 
 
 void go_right(void)
@@ -248,7 +209,7 @@ void game_over(void)
 
   }
   
-  while((PIND & (1<<right_button)));
+  while((PIND & (1<<select_button)));
   
 
   reset();
@@ -300,7 +261,7 @@ void snake_game(void)
 {
   //time_t t;
 
-  while(!(PIND & (1<<right_button)));
+  while(!(PIND & (1<<select_button)));
 
   nokia_lcd_clear();
 
@@ -330,7 +291,7 @@ void snake_game(void)
 
   nokia_lcd_render();
 
-  while(!(PIND & (1<<right_button)));
+  while(!(PIND & (1<<select_button)));
 
 
   while(1) 
@@ -350,7 +311,7 @@ void snake_game(void)
     if(!(PIND & (1<<right_button)))
       dir = 4;
 
-    if(!(PIND & (1<<pause_button)))
+    if(!(PIND & (1<<select_button)))
       pause_menu();
 
         
@@ -496,7 +457,7 @@ void quit_menu(void)
     }
 
 
-    if(!(PIND & (1<<right_button)))
+    if(!(PIND & (1<<select_button)))
     {
       reset();
     }
@@ -508,6 +469,8 @@ void quit_menu(void)
 
 void continue_menu(void)
 {
+  while(!(PIND & (1<<select_button)));
+
   nokia_lcd_set_cursor(10, 38);
 
   nokia_lcd_write_string(" ",1);
@@ -526,7 +489,7 @@ void continue_menu(void)
     }
 
 
-    if(!(PIND & (1<<right_button)))
+    if(!(PIND & (1<<select_button)))
     {
       snake_game();
     }
@@ -544,7 +507,7 @@ void start_menu(void)
 
   nokia_lcd_render();
 
-  while((PIND & (1<<right_button)));
+  while((PIND & (1<<select_button)));
 
   snake_game();
   
@@ -553,7 +516,7 @@ void start_menu(void)
 
 void reset(void)
 {
-  while(!(PIND & (1<<right_button)));
+  while(!(PIND & (1<<select_button)));
 
   snake_body[0][0]= 22; 
   snake_body[0][1]=24;
@@ -575,8 +538,12 @@ void reset(void)
 
   score = 0;
 
-  nokia_lcd_init();
-  
+  if (init == 1)
+  {
+    nokia_lcd_init();
+    init=0;
+  }
+
   nokia_lcd_clear();
 
   start_menu();
@@ -585,9 +552,9 @@ void reset(void)
 
 int main(void)
 {
-    DDRD &= ~((1<<left_button)|(1<<right_button)|(1<<up_button)|(1<<down_button)|(1<<pause_button));
+    DDRD &= ~((1<<left_button)|(1<<right_button)|(1<<up_button)|(1<<down_button)|(1<<select_button));
 
-    PORTD |= ((1<<left_button)|(1<<right_button)|(1<<up_button)|(1<<down_button)|(1<<pause_button));
+    PORTD |= ((1<<left_button)|(1<<right_button)|(1<<up_button)|(1<<down_button)|(1<<select_button));
 
     reset();
 

@@ -32,12 +32,14 @@
 #define LCD_DC PB4
 #define LCD_DIN PB3
 #define LCD_CLK PB5
+#define LED_pin PB0
 
 #define LCD_CONTRAST 0x40
 
 /*
  * Must be called once before any other function, initializes display
  */
+
 
 static void write(uint8_t bytes, uint8_t is_data);
 
