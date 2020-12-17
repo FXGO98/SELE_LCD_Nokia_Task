@@ -2,7 +2,7 @@
 
 1. [Introduction](#Introduction)
 2. [LCD Pinout](#LCD-Pinout)
-3. [Using this library](#Using-this-library)
+3. [LCD Operation](#LCD-Operation)
 4. [Built-in example](#Built-in-example)
 5. [Known issues](#Known-issues)
 6. [Future improvements](#Future-improvements)
@@ -13,6 +13,8 @@
 The objective of this task was to implement a snake game in a Microcontroller Atmega328P to be displayed by a LCD Nokia 5110. The displayed would be updated by the Microcontroller through the SPI protocol.
 
 Besides the Arduino Board containing the Microcontroller, we used 4 buttons to control the snake movement and 1 extra button for the options, as well as the wires and resistors to perform the connections.
+
+
 
 
 ## LCD Pinout
@@ -31,7 +33,22 @@ The LCD Nokia 5110 contains 8 pins with the following features:
 | 7 | SCLK | Serial clock | Input | Clock signal: 0.0 to 4.0 Mbits/s |
 | 8 | LED | LED backlight supply | Input | Controls the Display Light through the Current |
 
-## LCD 
+
+
+## LCD Operation
+
+
+After the declaring the LCD pins as inputs and the initialization of the SPI through the first thing we needed to do was to configure the LCD. In order to do that we sent command messages, with the lenght of 1 byte in which every combination of the 8 bits leads to a specific configuration command (Instruction).
+
+The set of instructions is showned in the image below:
+
+
+
+### Send a Command
+
+In order to send a command, the first thing we need to do is to enabled the Transmission of Data, we can do that by setting the SCE pin LOW. Then we need to enable the Command Mode by setting the pin D/C LOW as well. The last thing is just writing the command (1 byte) in the Serial Pin (DN(MOSI)) and wait till the data is sent, by monitoring the SPI Interrupt Flag in the SPI Status Register or waiting 8 clock cycles. 
+
+After that we need to disable the Transmission of Data to prevent sending random data. We do that setting the SCE pin back to HIGH.
 
 ### Flash
 
