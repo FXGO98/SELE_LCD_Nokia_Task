@@ -39,6 +39,7 @@ void go_up(void);
 void go_down(void);
 void eat_fruit(void);
 void game_over(void);
+void winner(void);
 void pause_menu(void);
 void snake_game(void);
 void quit_menu(void);
@@ -262,6 +263,33 @@ void game_over(void)
 }
 
 
+//Winner Screen
+void winner(void)
+{
+  uint8_t score_aux;
+
+  //Cleans the Game Screen
+  nokia_lcd_clear();
+
+  nokia_lcd_set_cursor(22, 20);
+
+  //Shows the Game Over message
+  nokia_lcd_write_string("Your Win",1);
+
+  
+  //Updates display
+  nokia_lcd_render();
+
+
+  //If the user clicks in the select button it resets the game back to the start menu
+  while((PIND & (1<<select_button)));
+  
+
+  reset();
+   
+}
+
+
 //Pause Menu
 void pause_menu(void)
 {
@@ -353,6 +381,9 @@ void snake_game(void)
   {
     //Period of the snake movement
     _delay_ms(100);
+
+    if(score>=10)
+      winner();
         
     //Getting Input from the direction buttons
     if(!(PIND & (1<<up_button)))
