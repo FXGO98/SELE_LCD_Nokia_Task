@@ -16,11 +16,11 @@ Besides the Arduino Board containing the Microcontroller, we used 4 buttons to c
 
 
 <p align="center">
-  <img width="460" height="300" src="/img/ram_tests_table.jpeg">
+  <img width="270" height="360" src="/img/131903153_230500798617574_727849156976634678_n.jpg">
 </p>
 <p align="center">
   <sub>
-Note: we apologise for the low quality image but it was the only that we could find
+Snake Game in the LCD
   </sub>
 </p>
 
@@ -45,11 +45,11 @@ The LCD Nokia 5110 contains 8 pins with the following features:
 
 
 <p align="center">
-  <img width="460" height="300" src="/img/ram_tests_table.jpeg">
+  <img width="445" height="417" src="/img/524dc9ea757b7f616e8b4569.png">
 </p>
 <p align="center">
   <sub>
-Note: we apologise for the low quality image but it was the only that we could find
+LCD Pins
   </sub>
 </p>
 
@@ -64,11 +64,11 @@ The set of instructions is showned in the image below:
 
 
 <p align="center">
-  <img width="460" height="300" src="/img/ram_tests_table.jpeg">
+  <img width="511" height="512" src="/img/unnamed.png">
 </p>
 <p align="center">
   <sub>
-Note: we apologise for the low quality image but it was the only that we could find
+LCD Instructions
   </sub>
 </p>
 
@@ -101,11 +101,11 @@ The LCD Display is divided in 6 banks, each one with 84 columns with each column
 
 
 <p align="center">
-  <img width="460" height="300" src="/img/ram_tests_table.jpeg">
+  <img width="640" height="406" src="/img/PCD8544.png">
 </p>
 <p align="center">
   <sub>
-Note: we apologise for the low quality image but it was the only that we could find
+Display Address Structure
   </sub>
 </p>
 
@@ -116,14 +116,23 @@ According with the respective configuration, we can update the display of two di
 
 
 <p align="center">
-  <img width="460" height="300" src="/img/ram_tests_table.jpeg">
+  <img width="551" height="330" src="/img/2.PNG">
 </p>
 <p align="center">
   <sub>
-Note: we apologise for the low quality image but it was the only that we could find
+Horizontal Addressing
   </sub>
 </p>
 
+
+<p align="center">
+  <img width="551" height="330" src="/img/11.PNG">
+</p>
+<p align="center">
+  <sub>
+Vertical Addressing
+  </sub>
+</p>
 
 
 
@@ -137,11 +146,11 @@ In order to allow the logic transmission between menus and the continuity of the
 
 
 <p align="center">
-  <img width="460" height="300" src="/img/ram_tests_table.jpeg">
+  <img width="461" height="572" src="/img/state machine.png">
 </p>
 <p align="center">
   <sub>
-Note: we apologise for the low quality image but it was the only that we could find
+Game State Machine
   </sub>
 </p>
 
