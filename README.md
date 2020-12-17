@@ -158,7 +158,7 @@ Game State Machine
 
 ## Used Libraries
 
-To allow a simplest control of the display, we used a library to control the writing of data, commands, the display update through SPI, based on the following Library: [Github: Nokia 5110 AVR Library](https://github.com/LittleBuster/avr-nokia5110) but with some modifications.
+To allow a simplest control of the display, we used a library to control the writing of data, commands, the display update through SPI, based on the following Library: [Github: Nokia 5110 AVR Library](https://github.com/LittleBuster/avr-nokia5110) but with some minor modifications.
 
 
 ## Issues and Solutions
