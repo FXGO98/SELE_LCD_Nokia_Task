@@ -7,6 +7,7 @@
 5. [Used Libraries](#Used-Libraries)
 6. [Issues and Solutions](#Issues-and-Solutions)
 7. [Schematic and PCB repository](#Schematic-and-PCB-repository)
+8. [Project Report](#Project-Report)
 
 
 ## Introduction
@@ -176,10 +177,10 @@ Due to some bugs related to the undesired shifting of the image on the LCD (bugs
 
 
 
-## Final Report
+## Project Report
 
 
-[Final Report](https://github.com/FXGO98/SELE_LCD_Nokia_Task/blob/master/Project_report/SELE___Final_Report.pdf)
+[Report](https://github.com/FXGO98/SELE_LCD_Nokia_Task/blob/master/Project_report/SELE___Final_Report.pdf)
 
 
 
