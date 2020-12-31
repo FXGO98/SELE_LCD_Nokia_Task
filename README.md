@@ -6,6 +6,7 @@
 4. [Game Operation](#Game-Operation)
 5. [Used Libraries](#Used-Libraries)
 6. [Issues and Solutions](#Issues-and-Solutions)
+7. [Schematic and PCB repository](#Schematic-and-PCB-repository)
 
 
 ## Introduction
@@ -165,5 +166,13 @@ To allow a simplest control of the display, we used a library to control the wri
 ## Issues and Solutions
 
 Due to some bugs related to the undesired shifting of the image on the LCD (bugs that we couldn't debug), we opted for sending each bit of data one by one on the Serial Pin and change the clock state for each one, instead of just writing the whole byte of data in the SPI Data Register. That allowed us to have more control in the data that was being sent to the LCD Driver and stopped the undesired shifting of the image.
+
+
+## Schematic and PCB repository
+
+
+[EasyEDA Repository](https://easyeda.com/editor#id=19f6456d21b64af998d017f1db2f55ce)
+
+
 
 
