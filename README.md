@@ -138,12 +138,12 @@ Vertical Addressing
 
 ## Game Operation
 
-The Game was developed with a bunch of different menus, besides the game itself. 
+The Game was developed with a set of different menus, besides the game itself. 
 A start menu that allows the game to begin. A pause menu that saves the current information about the game and allows to continue the game later or to
 quit it and a Game Over Menu that shows the score, after the snake dies.
 And a Win Menu that shows that the player reached the goal.
 
-In order to allow the logic transmission between menus and the continuity of the game, it was developed using a State Machine as showned in the figure below: 
+In order to allow the logic transition between menus and the continuity of the game, it was developed using a State Machine as shown in the figure below: 
 
 
 <p align="center">
