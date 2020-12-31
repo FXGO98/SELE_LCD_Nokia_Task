@@ -176,3 +176,11 @@ Due to some bugs related to the undesired shifting of the image on the LCD (bugs
 
 
 
+## Final Report
+
+
+[Final Report](https://github.com/FXGO98/SELE_LCD_Nokia_Task/blob/master/Project_report/SELE___Final_Report.pdf)
+
+
+
+
